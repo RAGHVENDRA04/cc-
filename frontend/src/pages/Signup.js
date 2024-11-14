@@ -27,7 +27,7 @@ function Signup() {
             return handleError('name, email and password are required')
         }
         try {
-            const url = `https://cc-1ec9newccbackend.vercel.app/auth/signup`;
+            const url = `https://cc-zeta-six.vercel.app/auth/signup`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
