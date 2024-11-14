@@ -12,4 +12,5 @@ export const handleError = (msg) => {
     })
 }
 
-export const APIUrl = process.env.REACT_APP_API_URL || 'https://cc-zeta-six.vercel.app';
+export const APIUrl = 'https://cc-zeta-six.vercel.app';
+
