@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import { APIUrl, handleError, handleSuccess } from '../utils';
 
@@ -10,11 +10,8 @@ function Login() {
         password: ''
     })
 
-    const navigate = useNavigate();
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         const copyLoginInfo = { ...loginInfo };
         copyLoginInfo[name] = value;
         setLoginInfo(copyLoginInfo);
@@ -24,10 +21,10 @@ function Login() {
         e.preventDefault();
         const { email, password } = loginInfo;
         if (!email || !password) {
-            return handleError('email and password are required')
+            return handleError('Email and password are required')
         }
         try {
-         const url = `${APIUrl}/auth/login`;
+            const url = `${APIUrl}/auth/login`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -36,18 +33,23 @@ function Login() {
                 body: JSON.stringify(loginInfo)
             });
             const result = await response.json();
-            const { success, message, jwtToken, name, error } = result;
+            const { success, message, error } = result;
+            
             if (success) {
                 handleSuccess(message);
-                localStorage.setItem('token', jwtToken);
-                localStorage.setItem('loggedInUser', name);
-                setTimeout(() => {
-                    navigate('/home')
-                }, 1000)
+                // Remove token and user data storage part
+                // Local storage logic is removed as part of removing auth
+                // localStorage.setItem('token', jwtToken); // REMOVE this line
+                // localStorage.setItem('loggedInUser', name); // REMOVE this line
+                
+                // Remove the redirect logic
+                // setTimeout(() => {
+                //     navigate('/home');  // REMOVE this line
+                // }, 1000);
             } else if (error) {
                 const details = error?.details[0].message;
                 handleError(details);
-            } else if (!success) {
+            } else {
                 handleError(message);
             }
             console.log(result);
@@ -81,7 +83,7 @@ function Login() {
                     />
                 </div>
                 <button type='submit'>Login</button>
-                <span>Does't have an account ?
+                <span>Doesn't have an account?
                     <Link to="/signup">Signup</Link>
                 </span>
             </form>
@@ -90,4 +92,4 @@ function Login() {
     )
 }
 
-export default Login
+export default Login;
